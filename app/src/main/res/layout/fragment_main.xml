@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.expensetracker.MainActivityFragment"
+    tools:showIn="@layout/activity_main">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <TextView
+            android:id="@+id/txtinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="left"
+            android:paddingTop="50dp"
+            android:text="AMOUNT"
+            android:textColor="#ffffff"
+
+            />
+
+
+        <EditText
+            android:id="@+id/editTextAmt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimaryDark"
+            android:ems="10"
+            android:fontFamily="@font/roboto_bold"
+            android:hint="0"
+            android:inputType="number"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/colorAccent"
+            android:textSize="60sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Spinner
+                android:id="@+id/spinner_items"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_item_box"
+                android:padding="5dp"
+                android:prompt="@string/spinner_items"
+                android:spinnerMode="dialog"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF" />
+
+            <Spinner
+                android:id="@+id/spinner_period"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/texview_circle"
+                android:fontFamily="@font/roboto_medium"
+                android:prompt="@string/spinner_period"
+                android:spinnerMode="dialog"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF" />
+
+            <Spinner
+                android:id="@+id/spinner_forwhom"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_item_box"
+                android:fontFamily="@font/roboto_medium"
+                android:padding="5dp"
+                android:prompt="@string/spinner_forwho"
+                android:spinnerMode="dialog"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+
+        <EditText
+
+            android:id="@+id/editdescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/texview_circle"
+            android:ems="10"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="Description (optional)"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:selectAllOnFocus="false"
+            android:singleLine="false"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            tools:layout_editor_absoluteX="98dp"
+            tools:layout_editor_absoluteY="134dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/texview_circle"
+                android:padding="10dp"
+                android:text="- \n Add Expense"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_save_plus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/texview_circle"
+                android:padding="10dp"
+                android:text="+ \n Add Income"
+                android:textColor="@android:color/holo_green_dark"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            >
+
+            <TextView
+                android:id="@+id/txt_current_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/colorAccent"
+                android:gravity="center"
+                android:text="Month"
+                android:textSize="20sp" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/circularProgressbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="250dp"
+                android:layout_height="180dp"
+                android:layout_centerInParent="true"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="50"
+
+                android:progressDrawable="@drawable/circular"
+                android:secondaryProgress="100" />
+
+            <ImageView
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/whitecircle" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="Add Income"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
