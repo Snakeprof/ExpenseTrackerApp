@@ -10,4 +10,6 @@
     <color name="colorLightGreen">#0097A7</color>
 
     <color name="colorBackroundWhite">#f0f2ea</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
 </resources>

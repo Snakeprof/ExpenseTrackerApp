@@ -64,11 +64,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
 
             // Income EditText change listener
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_salary_name)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_bonus_name)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_companionincome_name)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_incentive_name)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_freelance_name)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_otherincome_name)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_upload_quality)));
+           //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_bonus_name)));
+            //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_companionincome_name)));
+            //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_incentive_name)));
+           //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_freelance_name)));
+            //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_otherincome_name)));
 
             // notification preference change listener
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));
@@ -146,8 +147,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
                 }
 
             } else if (preference instanceof EditTextPreference) {
-                if (preference.getKey().equals("key_salary_name") || preference.getKey().equals("key_bonus_name") || preference.getKey().equals("key_companionincome_name") || preference.getKey().equals("key_freelance_name") || preference.getKey().equals("key_otherincome_name") || preference.getKey().equals("key_incentive_name")) {
-                    // update the changed salary name to summary filed
+                /*if (preference.getKey().equals("key_salary_name") || preference.getKey().equals("key_bonus_name") || preference.getKey().equals("key_companionincome_name") || preference.getKey().equals("key_freelance_name") || preference.getKey().equals("key_otherincome_name") || preference.getKey().equals("key_incentive_name")) {*/
+                if (preference.getKey().equals("key_salary_name")) {
+                // update the changed salary name to summary filed
                     preference.setSummary(stringValue);
                 }
             } else {

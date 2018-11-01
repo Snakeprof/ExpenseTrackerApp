@@ -35,6 +35,10 @@
         <activity
             android:name=".ReportsActivity"
             android:label="@string/title_activity_reports"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ExpensesDetailViewActivity"
+            android:label="@string/title_activity_expenses_detail_view"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

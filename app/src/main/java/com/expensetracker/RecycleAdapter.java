@@ -19,23 +19,24 @@ import java.util.Locale;
  */
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.Myholder> {
-    List<DataModel> dataModelArrayList;
+    private List<DataModel> dataModelArrayList;
 
     public RecycleAdapter(List<DataModel> dataModelArrayList) {
         this.dataModelArrayList = dataModelArrayList;
     }
 
     class Myholder extends RecyclerView.ViewHolder{
-        TextView item_name,amount,desc, mydate;
+        TextView item_name,amount,desc, mydate, txtid;
         ImageView img;
 
         public Myholder(View itemView) {
             super(itemView);
 
-            img = (ImageView) itemView.findViewById(R.id.profile_image);
-            item_name = (TextView) itemView.findViewById(R.id.item_name);
-            amount = (TextView) itemView.findViewById(R.id.amount);
-            desc = (TextView) itemView.findViewById(R.id.desc);
+            txtid = itemView.findViewById(R.id.txtid);
+            img = itemView.findViewById(R.id.profile_image);
+            item_name = itemView.findViewById(R.id.item_name);
+            amount = itemView.findViewById(R.id.amount);
+            desc = itemView.findViewById(R.id.desc);
 
         }
     }
@@ -57,80 +58,60 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.Myholder
 
         switch(dataModel.getItem_name()){
             case "Dinner":
-                holder.img.setImageResource(R.drawable.dinner);
+                holder.img.setImageResource(R.drawable.dinner_border);
                 break;
 
             case "Car Petrol":
-                holder.img.setImageResource(R.drawable.petrol);
+                holder.img.setImageResource(R.drawable.petrol_border);
                 break;
 
             case "Bike Petrol":
-                holder.img.setImageResource(R.drawable.petrol);
+                holder.img.setImageResource(R.drawable.petrol_border);
                 break;
 
             case "Lunch":
-                holder.img.setImageResource(R.drawable.lunch);
+                holder.img.setImageResource(R.drawable.lunch_border);
                 break;
 
             case "Drinks":
-                holder.img.setImageResource(R.drawable.beer);
+                holder.img.setImageResource(R.drawable.beer_border);
                 break;
 
             case "Shopping":
-                holder.img.setImageResource(R.drawable.shopping);
+                holder.img.setImageResource(R.drawable.shopping_border);
                 break;
 
             case "Grocery":
-                holder.img.setImageResource(R.drawable.grocery);
+                holder.img.setImageResource(R.drawable.grocery_border);
                 break;
 
             case "Bill":
-                holder.img.setImageResource(R.drawable.bill);
+                holder.img.setImageResource(R.drawable.bill_border);
                 break;
 
             case "Recharge":
-                holder.img.setImageResource(R.drawable.recharge);
+                holder.img.setImageResource(R.drawable.recharge_border);
                 break;
 
             case "Servent":
-                holder.img.setImageResource(R.drawable.servent);
+                holder.img.setImageResource(R.drawable.servent_border);
                 break;
 
                 default:
-                    holder.img.setImageResource(R.drawable.other);
+                    holder.img.setImageResource(R.drawable.other_border);
                     break;
 
 
 
         }
         holder.item_name.setText(dataModel.getItem_name());
+        holder.txtid.setText(dataModel.get_id());
         holder.amount.setText(dataModel.getAmt());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        String t = dataModel.getmydate();
+        TimeController timeController = new TimeController();
+        String newFormat = timeController.GetFormatedDate(dataModel.getmydate());
 
-        System.out.println("Dateformat>>>>>>>>>>>" + t);
-
-        Date date = null;
-        try {
-            date = dateFormat.parse(t);
-            System.out.println("Dateformat>>>>>>>>>>>" + date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd,yyyy hh:mm a");
-        String newFormat = formatter.format(date);
-        System.out.println(".....Date..."+newFormat);
-
-        /*Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        int dayOfMonth = c.get(Calendar.MONTH)+1;*/
-
-
-        holder.desc.setText(dataModel.getDesc()+" "+ newFormat);
+        holder.desc.setText(dataModel.getDesc()+"\n"+ newFormat);
 
     }
 

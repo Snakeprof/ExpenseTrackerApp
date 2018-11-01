@@ -27,18 +27,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     int pStatus = 0;
+    int currency_status = 0;
     TextView cirular_prg_txt;
-    private Handler handler = new Handler();
     String selected_item_spendon = "";
     String selected_forwho = "";
     int amt=0;
     TimeController timeController;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -46,12 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText editAmt = findViewById(R.id.editTextAmt);
         final EditText editdescription = findViewById(R.id.editdescription);
-        final Spinner spinner_items = (Spinner) findViewById(R.id.spinner_items);
-        final Spinner spinner_forwho = (Spinner) findViewById(R.id.spinner_forwhom);
-        final Spinner spinner_period = (Spinner) findViewById(R.id.spinner_period);
-        final TextView txt_current_month = (TextView) findViewById(R.id.txt_current_month);
-        Button btn_save = (Button) findViewById(R.id.btn_save);
-        Button btn_add = (Button) findViewById(R.id.btn_save_plus);
+        final Spinner spinner_items =  findViewById(R.id.spinner_items);
+        final Spinner spinner_forwho =  findViewById(R.id.spinner_forwhom);
+        final Spinner spinner_period =  findViewById(R.id.spinner_period);
+        final TextView txt_current_month =  findViewById(R.id.txt_current_month);
+        Button btn_save =  findViewById(R.id.btn_save);
+        Button btn_add =  findViewById(R.id.btn_save_plus);
 
         timeController = new TimeController();
         String curent_period = timeController.GetCurrentMonth()+" "+timeController.GetCurrentYear();
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(MainActivity.this, "Please Add The Amount", Toast.LENGTH_SHORT).show();
-                    return;
+
                 }
 
             }
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         /* Spinner dropdown list Period*/
-        List<String> ex_duration = new ArrayList<String>();
+        List<String> ex_duration = new ArrayList<>();
         ex_duration.add("Month");
         ex_duration.add("1");
         ex_duration.add("2");
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         ex_duration.add("12");
 
         //Creating adapter for all spinner
-        ArrayAdapter<String> dataadapter_duration = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ex_duration);
+        ArrayAdapter<String> dataadapter_duration = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ex_duration);
         dataadapter_duration.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_period.setAdapter(dataadapter_duration);
 
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -245,24 +246,25 @@ public class MainActivity extends AppCompatActivity {
         //Getting stored salary value and conveting it to INT
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String syncConnPref_salary = sharedPref.getString("key_salary_name", "");
-        String syncConnPref_bonus = sharedPref.getString("key_bonus_name", "");
-        String syncConnPref_incentive = sharedPref.getString("key_incentive_name", "");
-        String syncConnPref_freelance = sharedPref.getString("key_freelance_name", "");
-        String syncConnPref_other = sharedPref.getString("key_otherincome_name", "");
-        String syncConnPref_partner = sharedPref.getString("key_companionincome_name", "");
-        Log.d("Shared prefvalue", syncConnPref_salary);
+        String syncConnPref_currency = sharedPref.getString("key_upload_quality", "");
+        //String syncConnPref_bonus = sharedPref.getString("key_bonus_name", "");
+        //String syncConnPref_incentive = sharedPref.getString("key_incentive_name", "");
+        //String syncConnPref_freelance = sharedPref.getString("key_freelance_name", "");
+        //String syncConnPref_other = sharedPref.getString("key_otherincome_name", "");
+        //String syncConnPref_partner = sharedPref.getString("key_companionincome_name", "");
+        Log.d("Shared prefvalue", syncConnPref_currency);
 
-        TextView t = (TextView) findViewById(R.id.txtinfo);
+        TextView t = findViewById(R.id.txtinfo);
 
         int t_income = 0, salry = 0, bnus = 0, incen = 0, freeln = 0, other = 0, partner = 0;
         try {
             if (syncConnPref_salary != null) {
                 salry = Integer.parseInt(syncConnPref_salary);
-                bnus = Integer.parseInt(syncConnPref_bonus);
-                incen = Integer.parseInt(syncConnPref_incentive);
-                freeln = Integer.parseInt(syncConnPref_freelance);
-                partner = Integer.parseInt(syncConnPref_partner);
-                other = Integer.parseInt(syncConnPref_other);
+                //bnus = Integer.parseInt(syncConnPref_bonus);
+                //incen = Integer.parseInt(syncConnPref_incentive);
+                //freeln = Integer.parseInt(syncConnPref_freelance);
+               // partner = Integer.parseInt(syncConnPref_partner);
+                //other = Integer.parseInt(syncConnPref_other);
             }
 
             t_income = salry + bnus + incen + freeln + other + partner;
@@ -271,7 +273,22 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Integer Error " + e);
         }
 
-        t.setText("Total Balance Rs: " + t_income);
+        try {
+            currency_status = Integer.parseInt(syncConnPref_currency);
+
+            //Log.d("Shishir", syncConnPref_currency);
+            if (currency_status == 1) {
+                t.setText("Total Balance $: " + t_income);
+            } else {
+                t.setText("Total Balance Rs: " + t_income);
+            }
+        }catch (NumberFormatException e){
+
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>not a number");
+        }
+
+
+
 
         build_progessbar(t_income);
     }
@@ -280,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
         //Getting total expenses this month.
         ExpensesSQLiteDBHelper d = new ExpensesSQLiteDBHelper(this);
         amt = d.get_total_exp_amount_this_month();
-        System.out.println("AMT*************************"+amt);
+        //System.out.println("AMT*************************"+amt);
 
         pStatus = 0;
 
@@ -289,8 +306,8 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular);
 
-        cirular_prg_txt = (TextView) findViewById(R.id.tv);
-        final ProgressBar cirular_prg = (ProgressBar) findViewById(R.id.circularProgressbar);
+        cirular_prg_txt = findViewById(R.id.tv);
+        final ProgressBar cirular_prg = findViewById(R.id.circularProgressbar);
         cirular_prg.setProgress(0);   // Main Progress
         cirular_prg.setSecondaryProgress(total_amount); // Secondary Progress
         cirular_prg.setMax(total_amount); // Maximum Progress
@@ -307,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 while (pStatus < temp) {
                     pStatus += 100;
-                    System.out.println(">***************>>>>"+pStatus);
+                    //System.out.println(">***************>>>>"+pStatus);
                     if (temp > 2000) {
 
                         pStatus += 485;
@@ -332,7 +349,12 @@ public class MainActivity extends AppCompatActivity {
                             cirular_prg.setSecondaryProgress(total_amount); // Secondary Progress
                             cirular_prg.setProgress(pStatus);
                             //cirular_prg_txt.setText("Rs: " + pStatus + "\n Balnace");
-                            cirular_prg_txt.setText(Html.fromHtml("Rs: " + pStatus + "<br><font color=\"#F51616\"> Balance</font>"));
+                            if(currency_status==0) {
+                                cirular_prg_txt.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.rupee32, 0, 0);
+                            }else{
+                                cirular_prg_txt.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dollar32, 0, 0);
+                            }
+                            cirular_prg_txt.setText(Html.fromHtml( pStatus + "<br><font color=\"#F51616\"> Balance</font>"));
                         }
                     });
                     try {
@@ -355,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
         if (data_details.getCount() == 0) {
             // show message
             showMessage("Error", "Nothing found");
-            return;
+
         } else {
 
             StringBuffer buffer = new StringBuffer();

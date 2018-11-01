@@ -73,7 +73,11 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+EXPENSE_TABLE_NAME,null);
         return res;
     }
-
+    public Cursor getAllDataById(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+EXPENSE_TABLE_NAME+" where "+EXPENSE_COLUMN_ID+" = "+id,null);
+        return res;
+    }
     public int get_total_exp_amount_this_month(){
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -135,9 +139,11 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
             String amount = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_AMT));
             String desc = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_DESC));
             String mydate = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_CREATED_AT));
+            String data_id = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_ID));
 
 
             dataModel.setItem_name(item_name);
+            dataModel.set_id(data_id);
             dataModel.setAmt(amount);
             dataModel.setDesc(desc);
             dataModel.setmydate(mydate);

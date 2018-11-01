@@ -7,7 +7,15 @@
             android:summary="@string/default_salary_storage"
             android:inputType="numberDecimal"
             android:title="@string/title_salary_storage" />
-        <EditTextPreference
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="@string/title_set_currency"
+            android:entries="@array/pref_set_currency_entries"
+            android:entryValues="@array/pref_set_currency_values"
+            android:key="@string/key_upload_quality"
+            android:summary="@string/summary_upload_video_quality"
+            android:title="@string/title_set_currency"/>
+ <!--       <EditTextPreference
             android:defaultValue="@string/default_bonus_storage"
             android:key="@string/key_bonus_name"
             android:inputType="numberDecimal"
@@ -36,7 +44,7 @@
             android:key="@string/key_otherincome_name"
             android:summary="@string/default_otherincome_storage"
             android:inputType="numberDecimal"
-            android:title="@string/title_othermoney_storage" />
+            android:title="@string/title_othermoney_storage" />-->
 
     </PreferenceCategory>
 
@@ -72,25 +80,5 @@
             android:summary="@string/summary_support"
             android:title="@string/title_send_feedback" />
 
-        <!-- preference opens url in browser -->
-        <Preference
-            android:summary="@string/summary_faq"
-            android:title="@string/title_faq">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/url_faq" />
-        </Preference>
-
-        <Preference android:title="@string/privacy_policy">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/url_privacy" />
-        </Preference>
-
-        <Preference android:title="@string/title_terms">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/url_terms" />
-        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

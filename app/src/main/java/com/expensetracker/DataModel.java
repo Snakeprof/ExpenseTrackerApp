@@ -13,6 +13,8 @@ public class DataModel {
     public String xname;
     public String amount;
 
+    public String _id;
+
     public String getXname() {
         return xname;
     }
@@ -60,4 +62,8 @@ public class DataModel {
     public String getWhom() { return whom; }
 
     public void setWhom(String whom) { this.whom = whom; }
+
+    public String get_id() { return _id; }
+
+    public void set_id(String _id) { this._id = _id; }
 }
