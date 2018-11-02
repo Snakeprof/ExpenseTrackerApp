@@ -1,15 +1,16 @@
-package com.expensetracker;
+package com.expensetracker.Activity;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.expensetracker.Controller.ExpensesSQLiteDBHelper;
+import com.expensetracker.R;
+import com.expensetracker.Controller.TimeController;
 
 public class ExpensesDetailViewActivity extends AppCompatActivity {
     String data_id="";

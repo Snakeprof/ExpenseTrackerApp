@@ -24,7 +24,7 @@
             android:fontFamily="@font/roboto_medium"
             android:gravity="left"
             android:paddingTop="50dp"
-            android:text="AMOUNT"
+            android:text="@string/Salaryhint"
             android:textColor="#ffffff"
 
             />
@@ -105,14 +105,14 @@
             android:background="@drawable/texview_circle"
             android:textSize="18sp"
             android:fontFamily="@font/roboto_medium"
-            android:hint="Description"
+            android:hint="@string/deschint"
             android:inputType="textMultiLine"
             android:maxLines="2"
             android:padding="10dp"
             android:selectAllOnFocus="false"
             android:singleLine="false"
             android:textAlignment="center"
-            android:textColor="@color/colorBackroundWhite"
+            android:textColor="@color/colorGray"
             tools:layout_editor_absoluteX="98dp"
             tools:layout_editor_absoluteY="134dp" />
 

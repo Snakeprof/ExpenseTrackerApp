@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +24,21 @@ public class TimeController {
 
         return month_name;
     }
+    public int GetIntCurrentMonth(){
 
+        cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH)+1;
+
+        return month;
+    }
+
+    public int GetIntCurrentYear(){
+
+        cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+
+        return year;
+    }
     public String GetCurrentYear(){
 
         cal = Calendar.getInstance();

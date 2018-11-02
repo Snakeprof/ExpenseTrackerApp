@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     android:theme="@android:style/Theme.Dialog"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.expensetracker.ExpensesDetailViewActivity"
+    tools:context="com.expensetracker.Activity.ExpensesDetailViewActivity"
     tools:showIn="@layout/activity_expenses_detail_view"
-    android:background="@color/colorBackroundWhite">
+    android:background="@color/colorPrimaryDark">
 
     <RelativeLayout
+        android:background="@drawable/bg_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -23,7 +24,7 @@
             android:gravity="center"
             android:text="Itemname"
             android:paddingTop="10dp"
-            android:textColor="@color/colorGray"
+            android:textColor="@color/colorBackroundWhite"
             android:textSize="25sp" />
 
         <TextView
@@ -35,7 +36,7 @@
             android:paddingBottom="10dp"
             android:gravity="center"
             android:text="Itemname"
-            android:textColor="@color/colorGray"
+            android:textColor="@color/colorBackroundWhite"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -138,11 +139,11 @@
             android:id="@+id/linear4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linear3"
-            android:layout_margin="10dp"
             android:background="@drawable/white_card"
             android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
+android:layout_above="@id/linear5"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="20dp"
             android:padding="10dp">
 
 
@@ -156,7 +157,15 @@
                 android:fontFamily="@font/roboto_medium"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear5"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
 
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp">
+        </LinearLayout>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

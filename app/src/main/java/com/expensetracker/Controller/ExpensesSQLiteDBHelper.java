@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Controller;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.expensetracker.Model.DataModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,10 +80,9 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+EXPENSE_TABLE_NAME+" where "+EXPENSE_COLUMN_ID+" = "+id,null);
         return res;
     }
-    public int get_total_exp_amount_this_month(){
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH)+1;
+    public int get_total_exp_amount_this_month(int m, int y){
+        int year = y;
+        int month = m;
         int total = 0;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -102,11 +103,105 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
         return total;
     }
 
-    public List<DataModel> getYearlydata(){
+    public List<DataModel> getCategoryWiseData(String item, String person){
+
+        String category = item;
+        String spendon = person;
+        String query_spendon ="";
+
+        if(spendon.equals(null) || spendon.equals("")){
+            spendon = "Other";
+            query_spendon=  "and "+EXPENSE_COLUMN_WHOM+"='"+spendon+"'";
+        }else if(spendon.equals("All")) {
+            query_spendon="";
+        }else{
+            query_spendon=  "and "+EXPENSE_COLUMN_WHOM+"='"+spendon+"'";
+        }
+
+        // DataModel dataModel = new DataModel();
+        List<DataModel> data=new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.d("Query","select * from "+EXPENSE_TABLE_NAME+" WHERE "+EXPENSE_COLUMN_XNAME+"='"+category+"' "+query_spendon+" Order By "+ EXPENSE_CREATED_AT);
+        Cursor cursor = db.rawQuery("select * from "+EXPENSE_TABLE_NAME+ " WHERE "+EXPENSE_COLUMN_XNAME+"='"+category+"' "+query_spendon+" Order By "+ EXPENSE_CREATED_AT+"",null);
+        StringBuffer stringBuffer = new StringBuffer();
+        DataModel dataModel = null;
+        while (cursor.moveToNext()) {
+            dataModel= new DataModel();
+            String item_name = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_XNAME));
+            String amount = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_AMT));
+            String desc = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_DESC));
+            String mydate = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_CREATED_AT));
+            String data_id = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_ID));
+
+
+            dataModel.setItem_name(item_name);
+            dataModel.set_id(data_id);
+            dataModel.setAmt(amount);
+            dataModel.setDesc(desc);
+            dataModel.setmydate(mydate);
+            stringBuffer.append(dataModel);
+            // stringBuffer.append(dataModel);
+            data.add(dataModel);
+        }
+
+        /*for (DataModel mo:data ) {
+
+            Log.i("Hellomo",""+mo.getAmt());
+        }*/
+
+        //
+
+        return data;
+
+    }
+
+
+    public List<DataModel> getMontlydata(int m, int y){
+
+        int year = y;
+        int month = m;
+        String total = "";
+
+        // DataModel dataModel = new DataModel();
+        List<DataModel> data=new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from "+EXPENSE_TABLE_NAME+ " WHERE strftime('%m', "+EXPENSE_CREATED_AT+")='"+String.valueOf(month)+"' and strftime('%Y', "+EXPENSE_CREATED_AT+")='"+String.valueOf(year)+"'",null);
+        StringBuffer stringBuffer = new StringBuffer();
+        DataModel dataModel = null;
+        while (cursor.moveToNext()) {
+            dataModel= new DataModel();
+            String item_name = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_XNAME));
+            String amount = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_AMT));
+            String desc = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_DESC));
+            String mydate = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_CREATED_AT));
+            String data_id = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_ID));
+
+
+            dataModel.setItem_name(item_name);
+            dataModel.set_id(data_id);
+            dataModel.setAmt(amount);
+            dataModel.setDesc(desc);
+            dataModel.setmydate(mydate);
+            stringBuffer.append(dataModel);
+            // stringBuffer.append(dataModel);
+            data.add(dataModel);
+        }
+
+        for (DataModel mo:data ) {
+
+            Log.i("Hellomo",""+mo.getAmt());
+        }
+
+        //
+
+        return data;
+
+    }
+
+    public List<DataModel> getYearlydata(int y){
 
         List<DataModel> dataList = new ArrayList<DataModel>();
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
+        int year = y;
         String total = "";
 
         SQLiteDatabase db = this.getWritableDatabase();

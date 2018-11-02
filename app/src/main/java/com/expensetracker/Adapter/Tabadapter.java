@@ -1,9 +1,13 @@
-package com.expensetracker;
+package com.expensetracker.Adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.expensetracker.Fragment.CategoryFragment;
+import com.expensetracker.Fragment.MonthlyFragment;
+import com.expensetracker.Fragment.YearlyFragment;
 
 /**
  * Created by shishir.suvarna on 10/31/2018.

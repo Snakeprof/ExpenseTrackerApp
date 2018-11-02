@@ -1,26 +1,14 @@
-package com.expensetracker;
+package com.expensetracker.Activity;
 
-import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TableLayout;
-import android.widget.TextView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
-import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.view.PieChartView;
+import com.expensetracker.R;
+import com.expensetracker.Adapter.Tabadapter;
 
 public class ReportsActivity extends AppCompatActivity {
 

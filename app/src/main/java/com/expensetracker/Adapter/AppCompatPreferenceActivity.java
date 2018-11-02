@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Adapter;
 
 import android.preference.PreferenceActivity;
 import android.content.res.Configuration;

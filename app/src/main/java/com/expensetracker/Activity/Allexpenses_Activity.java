@@ -1,10 +1,7 @@
-package com.expensetracker;
+package com.expensetracker.Activity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.Toast;
+
+import com.expensetracker.Model.DataModel;
+import com.expensetracker.Controller.ExpensesSQLiteDBHelper;
+import com.expensetracker.R;
+import com.expensetracker.Adapter.RecycleAdapter;
+import com.expensetracker.Adapter.RecyclerTouchListener;
+import com.expensetracker.Controller.TimeController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ public class Allexpenses_Activity extends AppCompatActivity {
         final ExpensesSQLiteDBHelper db = new ExpensesSQLiteDBHelper(this);
 
 
-        datamodel = db.getdata();
+        datamodel = db.getMontlydata(timeController.GetIntCurrentMonth(), timeController.GetIntCurrentYear());
         recycler = new RecycleAdapter(datamodel);
 
 

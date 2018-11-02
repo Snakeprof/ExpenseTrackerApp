@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Model;
 
 /**
  * Created by shishir.suvarna on 10/9/2018.

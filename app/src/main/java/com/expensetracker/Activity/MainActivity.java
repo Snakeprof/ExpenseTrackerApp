@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +21,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.*;
 
+import com.expensetracker.Adapter.SpinnerAdapter;
+import com.expensetracker.Controller.ExpensesSQLiteDBHelper;
+import com.expensetracker.Model.ItemData;
+import com.expensetracker.R;
+import com.expensetracker.Controller.TimeController;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +35,10 @@ public class MainActivity extends AppCompatActivity {
     int pStatus = 0;
     int currency_status = 0;
     TextView cirular_prg_txt;
+    TextView txtname;
     String selected_item_spendon = "";
     String selected_forwho = "";
-    int amt=0;
+    int amt = 0;
     TimeController timeController;
     private Handler handler = new Handler();
 
@@ -47,15 +54,15 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText editAmt = findViewById(R.id.editTextAmt);
         final EditText editdescription = findViewById(R.id.editdescription);
-        final Spinner spinner_items =  findViewById(R.id.spinner_items);
-        final Spinner spinner_forwho =  findViewById(R.id.spinner_forwhom);
-        final Spinner spinner_period =  findViewById(R.id.spinner_period);
-        final TextView txt_current_month =  findViewById(R.id.txt_current_month);
-        Button btn_save =  findViewById(R.id.btn_save);
-        Button btn_add =  findViewById(R.id.btn_save_plus);
+        final Spinner spinner_items = findViewById(R.id.spinner_items);
+        final Spinner spinner_forwho = findViewById(R.id.spinner_forwhom);
+        final Spinner spinner_period = findViewById(R.id.spinner_period);
+        final TextView txt_current_month = findViewById(R.id.txt_current_month);
+        Button btn_save = findViewById(R.id.btn_save);
+        Button btn_add = findViewById(R.id.btn_save_plus);
 
         timeController = new TimeController();
-        String curent_period = timeController.GetCurrentMonth()+" "+timeController.GetCurrentYear();
+        String curent_period = timeController.GetCurrentMonth() + " " + timeController.GetCurrentYear();
         txt_current_month.setText(curent_period);
 
         btn_save.setOnClickListener(new View.OnClickListener() {
@@ -131,13 +138,15 @@ public class MainActivity extends AppCompatActivity {
         list_for.add(new ItemData("Family", R.drawable.kids));
         list_for.add(new ItemData("Friends", R.drawable.kids));
         list_for.add(new ItemData("Self", R.drawable.self));
-        com.expensetracker.SpinnerAdapter ad_for = new com.expensetracker.SpinnerAdapter(this, R.layout.spinner_with_image, R.id.txt, list_for);
+        com.expensetracker.Adapter.SpinnerAdapter ad_for = new SpinnerAdapter(this, R.layout.spinner_with_image, R.id.txt, list_for);
         spinner_forwho.setAdapter(ad_for);
         spinner_forwho.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView t = view.findViewById(R.id.txt);
-                selected_forwho = t.getText().toString();
+                if(view!=null) {
+                    TextView t = view.findViewById(R.id.txt);
+                    selected_forwho = t.getText().toString();
+                }
             }
 
             @Override
@@ -160,14 +169,15 @@ public class MainActivity extends AppCompatActivity {
         list.add(new ItemData("Recharge", R.drawable.recharge_border));
         list.add(new ItemData("Servent", R.drawable.servent_border));
 
-        com.expensetracker.SpinnerAdapter ad = new com.expensetracker.SpinnerAdapter(this, R.layout.spinner_with_image, R.id.txt, list);
+        SpinnerAdapter ad = new SpinnerAdapter(this, R.layout.spinner_with_image, R.id.txt, list);
         spinner_items.setAdapter(ad);
         spinner_items.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                TextView t = view.findViewById(R.id.txt);
-                selected_item_spendon = t.getText().toString();
+                if(view!=null) {
+                    txtname = view.findViewById(R.id.txt);
+                    selected_item_spendon = txtname.getText().toString();
+                }
             }
 
             @Override
@@ -177,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        FloatingActionButton fab =  findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -232,10 +242,13 @@ public class MainActivity extends AppCompatActivity {
             //Show all expenses in a listview
             Intent intent = new Intent(MainActivity.this, Allexpenses_Activity.class);
             startActivity(intent);
-        }else if (id == R.id.action_exp_yearly) {
+        } else if (id == R.id.action_exp_yearly) {
             //Show all expenses in a listview
             Intent intent = new Intent(MainActivity.this, ReportsActivity.class);
             startActivity(intent);
+        }else if(id == R.id.action_print){
+
+            printAllData();
         }
 
         return super.onOptionsItemSelected(item);
@@ -263,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 //bnus = Integer.parseInt(syncConnPref_bonus);
                 //incen = Integer.parseInt(syncConnPref_incentive);
                 //freeln = Integer.parseInt(syncConnPref_freelance);
-               // partner = Integer.parseInt(syncConnPref_partner);
+                // partner = Integer.parseInt(syncConnPref_partner);
                 //other = Integer.parseInt(syncConnPref_other);
             }
 
@@ -282,12 +295,10 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 t.setText("Total Balance Rs: " + t_income);
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
 
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>not a number");
         }
-
-
 
 
         build_progessbar(t_income);
@@ -296,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
     public void build_progessbar(int total_amt) {
         //Getting total expenses this month.
         ExpensesSQLiteDBHelper d = new ExpensesSQLiteDBHelper(this);
-        amt = d.get_total_exp_amount_this_month();
+        amt = d.get_total_exp_amount_this_month(timeController.GetIntCurrentMonth(),timeController.GetIntCurrentYear());
         //System.out.println("AMT*************************"+amt);
 
         pStatus = 0;
@@ -349,12 +360,12 @@ public class MainActivity extends AppCompatActivity {
                             cirular_prg.setSecondaryProgress(total_amount); // Secondary Progress
                             cirular_prg.setProgress(pStatus);
                             //cirular_prg_txt.setText("Rs: " + pStatus + "\n Balnace");
-                            if(currency_status==0) {
+                            if (currency_status == 0) {
                                 cirular_prg_txt.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.rupee32, 0, 0);
-                            }else{
+                            } else {
                                 cirular_prg_txt.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.dollar32, 0, 0);
                             }
-                            cirular_prg_txt.setText(Html.fromHtml( pStatus + "<br><font color=\"#F51616\"> Balance</font>"));
+                            cirular_prg_txt.setText(Html.fromHtml(pStatus + "<br><font color=\"#F51616\"> Balance</font>"));
                         }
                     });
                     try {
@@ -371,6 +382,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showdata() {
+
+
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+
+        /*final ExpensesSQLiteDBHelper db = new ExpensesSQLiteDBHelper(this);
+        Cursor data_details = db.getAllData();
+
+        if (data_details.getCount() == 0) {
+            // show message
+            showMessage("Error", "Nothing found");
+
+        } else {
+
+            StringBuffer buffer = new StringBuffer();
+            while (data_details.moveToNext()) {
+                buffer.append("Id :" + data_details.getString(0) + "\n");
+                buffer.append("Spent On :" + data_details.getString(1) + "\n");
+                buffer.append("Description :" + data_details.getString(2) + "\n");
+                buffer.append("Amount :" + data_details.getString(3) + "\n");
+                buffer.append("Duration :" + data_details.getString(5) + " Months \n");
+                buffer.append("Date :" + data_details.getString(6) + "\n");
+                buffer.append("For Whom? :" + data_details.getString(7) + "\n\n");
+
+            }
+
+            // Show all data
+            //showMessage("Expenses", buffer.toString());
+
+        }*/
+    }
+
+    public void printAllData(){
         final ExpensesSQLiteDBHelper db = new ExpensesSQLiteDBHelper(this);
         Cursor data_details = db.getAllData();
 
@@ -395,10 +441,6 @@ public class MainActivity extends AppCompatActivity {
             // Show all data
             showMessage("Expenses", buffer.toString());
 
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
         }
     }
 

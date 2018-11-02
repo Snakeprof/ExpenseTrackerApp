@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Adapter;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

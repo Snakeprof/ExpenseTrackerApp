@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,15 +15,12 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.text.TextUtils;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
+
+import com.expensetracker.Adapter.AppCompatPreferenceActivity;
+import com.expensetracker.R;
 
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private static final String TAG = SettingsActivity.class.getSimpleName();

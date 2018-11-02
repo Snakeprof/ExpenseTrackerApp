@@ -1,4 +1,4 @@
-package com.expensetracker;
+package com.expensetracker.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.expensetracker.Model.ItemData;
+import com.expensetracker.R;
+
 import java.util.ArrayList;
 
 /**
