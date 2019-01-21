@@ -66,7 +66,8 @@
     <string name="title_activity_reports">ReportsActivity</string>
     <string name="title_activity_expenses_detail_view">ExpensesDetailViewActivity</string>
 
-
+    <string name="openDrawer">Navigation</string>
+    <string name="closeDrawer">Close Navigation</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

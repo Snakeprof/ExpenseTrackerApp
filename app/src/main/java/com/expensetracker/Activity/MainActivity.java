@@ -8,8 +8,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,15 +44,85 @@ public class MainActivity extends AppCompatActivity {
     String selected_forwho = "";
     int amt = 0;
     TimeController timeController;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        /*Drawer code here*/
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+
+        ActionBarDrawerToggle actionBarDrawerToggle =
+                new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        super.onDrawerClosed(drawerView);
+                    }
+
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        super.onDrawerOpened(drawerView);
+                    }
+                };
+
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.action_settings:
+                        Intent intent_setting = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(intent_setting);
+                        drawerLayout.closeDrawers();
+                        break;
+
+                    case R.id.action_all_ex:
+                        Intent intent_allex = new Intent(MainActivity.this, Allexpenses_Activity.class);
+                        startActivity(intent_allex);
+                        drawerLayout.closeDrawers();
+                        break;
+
+                    case R.id.action_exp_yearly:
+                        //Show all expenses in a listview
+                        Intent intent_yearly = new Intent(MainActivity.this, ReportsActivity.class);
+                        startActivity(intent_yearly);
+                        drawerLayout.closeDrawers();
+                        break;
+
+                    case R.id.action_print:
+                        printAllData();
+                        drawerLayout.closeDrawers();
+                        break;
+                    default:
+
+                        break;
+                }
+
+                if(item.isChecked()){
+                    item.setChecked(false);
+                }else{
+                    item.setChecked(true);
+                }
+
+
+                return true;
+            }
+        });
 
         final ExpensesSQLiteDBHelper db = new ExpensesSQLiteDBHelper(this);
 
@@ -143,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         spinner_forwho.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(view!=null) {
+                if (view != null) {
                     TextView t = view.findViewById(R.id.txt);
                     selected_forwho = t.getText().toString();
                 }
@@ -174,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         spinner_items.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(view!=null) {
+                if (view != null) {
                     txtname = view.findViewById(R.id.txt);
                     selected_item_spendon = txtname.getText().toString();
                 }
@@ -195,6 +269,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
     }
 
 
@@ -218,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main_setting, menu);
         return true;
     }
 
@@ -238,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
             return true;
-        } else if (id == R.id.action_all_ex) {
+        } /*else if (id == R.id.action_all_ex) {
             //Show all expenses in a listview
             Intent intent = new Intent(MainActivity.this, Allexpenses_Activity.class);
             startActivity(intent);
@@ -246,10 +322,10 @@ public class MainActivity extends AppCompatActivity {
             //Show all expenses in a listview
             Intent intent = new Intent(MainActivity.this, ReportsActivity.class);
             startActivity(intent);
-        }else if(id == R.id.action_print){
+        } else if (id == R.id.action_print) {
 
             printAllData();
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -291,9 +367,9 @@ public class MainActivity extends AppCompatActivity {
 
             //Log.d("Shishir", syncConnPref_currency);
             if (currency_status == 1) {
-                t.setText("Total Balance $: " + t_income);
+                t.setText("Total Money $: " + t_income);
             } else {
-                t.setText("Total Balance Rs: " + t_income);
+                t.setText("Total Money Rs: " + t_income);
             }
         } catch (NumberFormatException e) {
 
@@ -307,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
     public void build_progessbar(int total_amt) {
         //Getting total expenses this month.
         ExpensesSQLiteDBHelper d = new ExpensesSQLiteDBHelper(this);
-        amt = d.get_total_exp_amount_this_month(timeController.GetIntCurrentMonth(),timeController.GetIntCurrentYear());
+        amt = d.get_total_exp_amount_this_month(timeController.GetIntCurrentMonth(), timeController.GetIntCurrentYear());
         //System.out.println("AMT*************************"+amt);
 
         pStatus = 0;
@@ -323,6 +399,15 @@ public class MainActivity extends AppCompatActivity {
         cirular_prg.setSecondaryProgress(total_amount); // Secondary Progress
         cirular_prg.setMax(total_amount); // Maximum Progress
         cirular_prg.setProgressDrawable(drawable);
+
+        cirular_prg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Show all expenses in a listview
+                Intent intent = new Intent(MainActivity.this, Allexpenses_Activity.class);
+                startActivity(intent);
+            }
+        });
 
         /*ObjectAnimator animation = ObjectAnimator.ofInt(cirular_prg, "progress", 0, green_circle_update);
         animation.setDuration(50000);
@@ -416,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
     }
 
-    public void printAllData(){
+    public void printAllData() {
         final ExpensesSQLiteDBHelper db = new ExpensesSQLiteDBHelper(this);
         Cursor data_details = db.getAllData();
 

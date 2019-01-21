@@ -1,63 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory
+        android:fontFamily="@font/roboto_medium"
+        android:title="General">
         <EditTextPreference
             android:defaultValue="@string/default_gallery_storage"
+            android:fontFamily="@font/roboto_medium"
+            android:inputType="numberDecimal"
             android:key="@string/key_salary_name"
             android:summary="@string/default_salary_storage"
-            android:inputType="numberDecimal"
             android:title="@string/title_salary_storage" />
         <ListPreference
             android:defaultValue="1"
             android:dialogTitle="@string/title_set_currency"
             android:entries="@array/pref_set_currency_entries"
             android:entryValues="@array/pref_set_currency_values"
+            android:fontFamily="@font/roboto_medium"
             android:key="@string/key_upload_quality"
             android:summary="@string/summary_upload_video_quality"
-            android:title="@string/title_set_currency"/>
- <!--       <EditTextPreference
-            android:defaultValue="@string/default_bonus_storage"
-            android:key="@string/key_bonus_name"
-            android:inputType="numberDecimal"
-            android:summary="@string/default_bonus_storage"
-            android:title="@string/title_bonus_storage" />
-        <EditTextPreference
-            android:defaultValue="@string/default_freelance_storage"
-            android:key="@string/key_freelance_name"
-            android:summary="@string/default_freelance_storage"
-            android:inputType="numberDecimal"
-            android:title="@string/title_freelance_storage" />
-        <EditTextPreference
-            android:defaultValue="@string/default_incentive_storage"
-            android:key="@string/key_incentive_name"
-            android:summary="@string/default_incentive_storage"
-            android:inputType="numberDecimal"
-            android:title="@string/title_incentive_storage" />
-        <EditTextPreference
-            android:defaultValue="@string/default_gallery_storage"
-            android:key="@string/key_companionincome_name"
-            android:summary="@string/default_gallery_storage"
-            android:inputType="numberDecimal"
-            android:title="@string/title_companionincome_storage" />
-        <EditTextPreference
-            android:defaultValue="@string/default_otherincome_storage"
-            android:key="@string/key_otherincome_name"
-            android:summary="@string/default_otherincome_storage"
-            android:inputType="numberDecimal"
-            android:title="@string/title_othermoney_storage" />-->
+            android:title="@string/title_set_currency" />
+        <!--       <EditTextPreference
+                   android:defaultValue="@string/default_bonus_storage"
+                   android:key="@string/key_bonus_name"
+                   android:inputType="numberDecimal"
+                   android:summary="@string/default_bonus_storage"
+                   android:title="@string/title_bonus_storage" />
+               <EditTextPreference
+                   android:defaultValue="@string/default_freelance_storage"
+                   android:key="@string/key_freelance_name"
+                   android:summary="@string/default_freelance_storage"
+                   android:inputType="numberDecimal"
+                   android:title="@string/title_freelance_storage" />
+               <EditTextPreference
+                   android:defaultValue="@string/default_incentive_storage"
+                   android:key="@string/key_incentive_name"
+                   android:summary="@string/default_incentive_storage"
+                   android:inputType="numberDecimal"
+                   android:title="@string/title_incentive_storage" />
+               <EditTextPreference
+                   android:defaultValue="@string/default_gallery_storage"
+                   android:key="@string/key_companionincome_name"
+                   android:summary="@string/default_gallery_storage"
+                   android:inputType="numberDecimal"
+                   android:title="@string/title_companionincome_storage" />
+               <EditTextPreference
+                   android:defaultValue="@string/default_otherincome_storage"
+                   android:key="@string/key_otherincome_name"
+                   android:summary="@string/default_otherincome_storage"
+                   android:inputType="numberDecimal"
+                   android:title="@string/title_othermoney_storage" />-->
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_title_notifications">
+    <PreferenceCategory
+        android:fontFamily="@font/roboto_medium"
+        android:title="@string/pref_title_notifications">
 
         <SwitchPreference
             android:defaultValue="true"
+            android:fontFamily="@font/roboto_medium"
             android:key="@string/notifications_new_message"
             android:title="@string/title_new_notification_sound" />
 
         <RingtonePreference
             android:defaultValue="content://settings/system/notification_sound"
             android:dependency="notifications_new_message"
+            android:fontFamily="@font/roboto_medium"
             android:key="@string/key_notifications_new_message_ringtone"
             android:ringtoneType="notification"
             android:summary="@string/summary_choose_ringtone"
@@ -65,17 +73,22 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_about">
+    <PreferenceCategory
+        android:fontFamily="@font/roboto_medium"
+        android:title="@string/pref_header_about">
 
         <Preference
+            android:fontFamily="@font/roboto_medium"
             android:selectable="false"
             android:summary="@string/summary_about" />
 
         <Preference
+            android:fontFamily="@font/roboto_medium"
             android:summary="@string/app_version"
             android:title="@string/title_version" />
 
         <Preference
+            android:fontFamily="@font/roboto_medium"
             android:key="@string/key_send_feedback"
             android:summary="@string/summary_support"
             android:title="@string/title_send_feedback" />

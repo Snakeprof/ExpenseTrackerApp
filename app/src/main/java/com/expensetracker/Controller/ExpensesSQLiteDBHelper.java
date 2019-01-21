@@ -54,6 +54,15 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
+    public boolean deleteData(int id){
+        SQLiteDatabase db1 = this.getWritableDatabase();
+        long result = db1.delete(EXPENSE_TABLE_NAME, EXPENSE_COLUMN_ID + "=" + id, null);
+        if(result == -1)
+            return false;
+        else
+            return true;
+    }
+
     public boolean insertData(String name1, String desc, String amt, String duration, String whom){
         SQLiteDatabase db1 = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -88,7 +97,7 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //Cursor res = db.rawQuery("select "+EXPENSE_COLUMN_AMT+" as total_exp from "+EXPENSE_TABLE_NAME,null);
-        Cursor res = db.rawQuery("SELECT SUM("+EXPENSE_COLUMN_AMT+") as 'myamount' FROM "+EXPENSE_TABLE_NAME+" WHERE strftime('%Y', "+EXPENSE_CREATED_AT+")='"+String.valueOf(year)+"' and strftime('%m', "+EXPENSE_CREATED_AT+")='"+String.valueOf(month)+"'",null);
+        Cursor res = db.rawQuery("SELECT SUM("+EXPENSE_COLUMN_AMT+") as 'myamount' FROM "+EXPENSE_TABLE_NAME+" WHERE strftime('%Y', "+EXPENSE_CREATED_AT+")=CAST('"+String.valueOf(year)+"' AS INTEGER) and strftime('%m', "+EXPENSE_CREATED_AT+")=CAST('"+String.valueOf(month)+"' AS INTEGER)",null);
         if (res.moveToFirst()) { // data?
             Log.v("Cursor Object", DatabaseUtils.dumpCursorToString(res));
             //System.out.println(">>>>>>>>>>date>>>>>>>>>>"+res.getString(res.getColumnIndex("myamount")));
@@ -156,21 +165,33 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<DataModel> getMontlydata(int m, int y){
+    public List<DataModel> getAllMontlydata(int m, int y){
 
         int year = y;
         int month = m;
         String total = "";
 
+        //Log.d(">>>>>>>Month/year", ""+String.valueOf(month));
+        //Log.d(">>>>>>>Month/year", ""+String.valueOf(year));
+
         // DataModel dataModel = new DataModel();
         List<DataModel> data=new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from "+EXPENSE_TABLE_NAME+ " WHERE strftime('%m', "+EXPENSE_CREATED_AT+")='"+String.valueOf(month)+"' and strftime('%Y', "+EXPENSE_CREATED_AT+")='"+String.valueOf(year)+"'",null);
+        //Cursor cursor = db.rawQuery("select * from "+EXPENSE_TABLE_NAME+ " WHERE strftime('%m', "+EXPENSE_CREATED_AT+")='"+String.valueOf(month)+"' and strftime('%Y', "+EXPENSE_CREATED_AT+")='"+String.valueOf(year)+"'",null);
+
+        Cursor cursor = db.rawQuery("select * from "+EXPENSE_TABLE_NAME+" WHERE strftime('%m', "+EXPENSE_CREATED_AT+")=CAST('"+String.valueOf(month)+"' AS INTEGER) and strftime('%Y', "+EXPENSE_CREATED_AT+")=CAST('"+String.valueOf(year)+"' AS INTEGER)",null);
+
         StringBuffer stringBuffer = new StringBuffer();
         DataModel dataModel = null;
+
+        //Log.d(">>>>>>>Month/year", "QUERY "+"select * from "+EXPENSE_TABLE_NAME+ " WHERE strftime('%m', "+EXPENSE_CREATED_AT+")='"+String.valueOf(month)+"' and strftime('%Y', "+EXPENSE_CREATED_AT+")='"+String.valueOf(year)+"'");
+
         while (cursor.moveToNext()) {
             dataModel= new DataModel();
+
+
             String item_name = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_XNAME));
+            Log.d(">>>>>>>Month/year", "EXPENSE_COLUMN_XNAME "+item_name);
             String amount = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_AMT));
             String desc = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_COLUMN_DESC));
             String mydate = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_CREATED_AT));
@@ -197,7 +218,29 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
         return data;
 
     }
+    public List<DataModel> getMonthlydata(int y, int m){
 
+        List<DataModel> dataList = new ArrayList<DataModel>();
+        int year = y;
+        int month = m;
+        String total = "";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Cursor res = db.rawQuery("select "+EXPENSE_COLUMN_AMT+" as total_exp from "+EXPENSE_TABLE_NAME,null);
+        Cursor cursor = db.rawQuery("SELECT Distinct "+EXPENSE_COLUMN_XNAME+" as 'xname' ,SUM("+EXPENSE_COLUMN_AMT+") as 'amount' FROM "+EXPENSE_TABLE_NAME+" WHERE strftime('%Y', "+EXPENSE_CREATED_AT+")=CAST('"+String.valueOf(year)+"' AS INTEGER) and strftime('%m', "+EXPENSE_CREATED_AT+")=CAST('"+String.valueOf(month)+"' AS INTEGER) Group By "+EXPENSE_COLUMN_XNAME,null);
+
+        while (cursor.moveToNext()) { // data?
+            DataModel datamodel = new DataModel();
+            datamodel.setXname(cursor.getString(cursor.getColumnIndex("xname")));
+            datamodel.setAmount(cursor.getString(cursor.getColumnIndex("amount")));
+            dataList.add(datamodel);
+        }
+        cursor.close();
+
+        return dataList;
+
+    }
     public List<DataModel> getYearlydata(int y){
 
         List<DataModel> dataList = new ArrayList<DataModel>();
@@ -207,7 +250,7 @@ public class ExpensesSQLiteDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //Cursor res = db.rawQuery("select "+EXPENSE_COLUMN_AMT+" as total_exp from "+EXPENSE_TABLE_NAME,null);
-        Cursor cursor = db.rawQuery("SELECT Distinct "+EXPENSE_COLUMN_XNAME+" as 'xname' ,SUM("+EXPENSE_COLUMN_AMT+") as 'amount' FROM "+EXPENSE_TABLE_NAME+" WHERE strftime('%Y', "+EXPENSE_CREATED_AT+")='"+String.valueOf(year)+"' Group By "+EXPENSE_COLUMN_XNAME,null);
+        Cursor cursor = db.rawQuery("SELECT Distinct "+EXPENSE_COLUMN_XNAME+" as 'xname' ,SUM("+EXPENSE_COLUMN_AMT+") as 'amount' FROM "+EXPENSE_TABLE_NAME+" WHERE strftime('%Y', "+EXPENSE_CREATED_AT+")=CAST('"+String.valueOf(year)+"' AS INTEGER) Group By "+EXPENSE_COLUMN_XNAME,null);
 
         while (cursor.moveToNext()) { // data?
             DataModel datamodel = new DataModel();

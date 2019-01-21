@@ -15,7 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-
+        <ImageView
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete_black"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10sp"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/txtitem"
             android:layout_width="match_parent"
@@ -45,13 +53,13 @@
             android:layout_height="130dp"
             android:layout_below="@id/txtdate"
             android:layout_margin="10dp"
-            android:background="@drawable/white_card"
+            android:background="@drawable/cardview_bg"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <ImageView
                 android:id="@+id/img_item"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:src="@drawable/petrol" />
@@ -75,7 +83,7 @@
             android:layout_height="120dp"
             android:layout_below="@id/linear1"
             android:layout_margin="10dp"
-            android:background="@drawable/white_card"
+            android:background="@drawable/cardview_bg"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -109,7 +117,7 @@
             android:layout_height="130dp"
             android:layout_below="@id/linear2"
             android:layout_margin="10dp"
-            android:background="@drawable/white_card"
+            android:background="@drawable/cardview_bg"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -139,7 +147,7 @@
             android:id="@+id/linear4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_card"
+            android:background="@drawable/cardview_bg"
             android:orientation="horizontal"
 android:layout_above="@id/linear5"
             android:layout_margin="10dp"

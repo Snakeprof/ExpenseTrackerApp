@@ -52,7 +52,7 @@ public class Allexpenses_Activity extends AppCompatActivity {
         final ExpensesSQLiteDBHelper db = new ExpensesSQLiteDBHelper(this);
 
 
-        datamodel = db.getMontlydata(timeController.GetIntCurrentMonth(), timeController.GetIntCurrentYear());
+        datamodel = db.getAllMontlydata(timeController.GetIntCurrentMonth(), timeController.GetIntCurrentYear());
         recycler = new RecycleAdapter(datamodel);
 
 
@@ -107,5 +107,11 @@ public class Allexpenses_Activity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        recycler.notifyDataSetChanged();
+        super.onResume();
     }
 }

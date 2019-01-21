@@ -2,24 +2,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.expensetracker.Activity.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_all_ex"
-        android:orderInCategory="100"
-        android:title="@string/action_all_ex"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_exp_yearly"
-        android:orderInCategory="100"
-        android:title="@string/action_yearly"
-        app:showAsAction="never" />
+    <group
+        android:id="@+id/group_1"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/action_all_ex"
+            android:icon="@drawable/ic_credit_card"
+            android:title="@string/action_all_ex"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_exp_yearly"
+            android:icon="@drawable/ic_report"
+            android:title="@string/action_yearly"
+            app:showAsAction="never" />
+    </group>
+
+    <group
+        android:id="@+id/group_2"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_about"
+            android:title="@string/pref_header_about" />
+        <item
+            android:id="@+id/nav_privacy_policy"
+            android:icon="@drawable/ic_privacy"
+            android:title="@string/privacy_policy" />
+    </group>
+
+    <group
+        android:id="@+id/group_3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/action_settings"
+            app:showAsAction="never" />
+
+    </group>
     <item
         android:id="@+id/action_print"
-        android:orderInCategory="100"
         android:title="@string/action_print"
         app:showAsAction="never" />
 </menu>

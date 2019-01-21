@@ -1,12 +1,16 @@
 package com.expensetracker.Activity;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.expensetracker.Controller.ExpensesSQLiteDBHelper;
 import com.expensetracker.R;
@@ -15,7 +19,7 @@ import com.expensetracker.Controller.TimeController;
 public class ExpensesDetailViewActivity extends AppCompatActivity {
     String data_id="";
     TextView txtname, txtdesc, txtamount, txtforwho, txtdate, txtduration;
-    ImageView imgItem, imgForwho;
+    ImageView imgItem, imgForwho, btn_delete;
     MainActivity mainActivity = new MainActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,13 @@ public class ExpensesDetailViewActivity extends AppCompatActivity {
         txtdate = findViewById(R.id.txtdate);
         imgItem = findViewById(R.id.img_item);
         imgForwho = findViewById(R.id.img_forwho);
+        btn_delete = findViewById(R.id.btn_delete);
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getConfirmation();
+            }
+        });
 
         if(getIntent().getExtras()!=null) {
             data_id = getIntent().getStringExtra("data_id");
@@ -50,8 +61,6 @@ public class ExpensesDetailViewActivity extends AppCompatActivity {
     }
 
     public void GetDetailByID() {
-
-
         final ExpensesSQLiteDBHelper db = new ExpensesSQLiteDBHelper(this);
         int id = Integer.parseInt(data_id);
         Cursor data_details = db.getAllDataById(id);
@@ -197,4 +206,53 @@ public class ExpensesDetailViewActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void getConfirmation(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ExpensesDetailViewActivity.this);
+        // Setting Dialog Title
+        alertDialog.setTitle("Confirm Delete...");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("Are you sure you want delete this?");
+
+        // Setting Icon to Dialog
+        alertDialog.setIcon(R.drawable.ic_delete_black);
+
+        // Setting Positive "Yes" Button
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+
+                deleteRecord();
+                // Write your code here to invoke YES event
+
+            }
+        });
+
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Write your code here to invoke NO event
+                dialog.cancel();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
+
+    }
+
+    public void deleteRecord(){
+
+        final ExpensesSQLiteDBHelper db = new ExpensesSQLiteDBHelper(ExpensesDetailViewActivity.this);
+        int id = Integer.parseInt(data_id);
+        Boolean response = db.deleteData(id);
+        if (response) {
+            Toast.makeText(ExpensesDetailViewActivity.this, "Delete Data Successfully", Toast.LENGTH_LONG).show();
+
+            finish();
+        } else {
+            mainActivity.showMessage("Error", "Something went wrong while deleting data.");
+        }
+    }
+
 }
